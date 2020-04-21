@@ -133,5 +133,8 @@ table {
 html,
 body,
 #app {
+  // 单位写成大写就不会进行rem转换
+  max-width: 540PX;
+  margin: 0 auto;
   height: 100%;
 }
