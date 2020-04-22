@@ -13,7 +13,6 @@
       </a>
     </header>
     <!-- 首页头部 end -->
-
     <!-- 轮播图 begin -->
     <Swiper class="my-swiper" @change="onChange">
       <!-- 组件标签里的内容是插槽内容 -->
@@ -65,12 +64,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// 引入共用minxins.scss 文件，低版本的引入@符号前要加~
+@import '@/assets/styles/mixins.scss';
 .page-home {
   display: flex;
   flex-direction: column;
   height: 100%;
 
   .index-header {
+    // 在对应位置使用相应的 minxin
+    @include border-bottom;
     display: flex;
     justify-content: space-between;
     align-items: center;

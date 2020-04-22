@@ -1,5 +1,5 @@
 <template>
-  <div class="swiper-container">
+  <div class="swiper-container" ref="swiper">
     <div class="swiper-wrapper">
       <!-- 组件模板里指定插槽位置 -->
       <slot></slot>
@@ -25,7 +25,10 @@ export default {
     // new 之前的this 是指当前组件的实例
     const that = this
     /* eslint-disable */
-    new Swiper(".swiper-container", {
+    // 1-1 this.$refs.swiper  在普通的 DOM 元素上使用，引用指向的就是 DOM 元素
+    // 1-2 this.$el 拿到 Vue 实例使用的根 DOM 元素
+    // 1-1 与 1-2 拿到的内容相同
+    new Swiper(this.$refs.swiper, {
       loop: true, // 循环模式选项
       // 分页器
       pagination: {
