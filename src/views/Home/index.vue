@@ -59,6 +59,10 @@ export default {
     onChange (index) {
       console.log('hello', index)
     }
+  },
+  // 模拟跨域请求，注意要通过 * 代理中间层地址拼上定义的统一的前缀 *，去拿目标数据
+  created () {
+    fetch('http://localhost:8080/migu/lovev/miguMovie/data/seeFilmData.jsp', { method: 'POST' }).then(response => { response.json() }).then(res => console.log(res))
   }
 }
 </script>
