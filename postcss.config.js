@@ -8,7 +8,7 @@ module.exports = {
     'postcss-pxtorem': {
       // 转化的基准值 1rem = 37.5px
       rootValue: 37.5,
-      propList: ['*'],
-    },
-  },
+      propList: ['*']
+    }
+  }
 }
