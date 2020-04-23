@@ -3,7 +3,9 @@
 // 引入封装好的 axios 实例
 import request from '@/utils/request'
 
-// 获取轮播图
+/**
+ * 获取轮播图数据
+ */
 
 export const getBanner = () => {
   // return 的是接口调用之后，axios 返回的 Promise 对象
@@ -17,6 +19,22 @@ export const getBanner = () => {
       appversion: '1.0',
       channel: 'web-app',
       adgroupid: 123
+    }
+  })
+}
+
+/**
+ *  获取首页推荐数据
+ */
+export const getIndexRecommend = () => {
+  return request({
+    url: '/api/comic_v2/customerview',
+    method: 'GET',
+    params: {
+      apptype: 8,
+      appversion: '1.0',
+      channel: ' web-app',
+      viewtype: 1
     }
   })
 }
