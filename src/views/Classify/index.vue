@@ -53,7 +53,7 @@ export default {
       getTypeList(subject)
         .then(res => {
           if (res.code === 200) {
-            // 解密 res.info ，并将一个 JSON 字符串转换为对象
+            // 解密 res.info ，并将得到的 JSON 字符串转换为对象
             const info = JSON.parse(unformat(res.info))
             // console.log(info)
             this.list = info.comicsList

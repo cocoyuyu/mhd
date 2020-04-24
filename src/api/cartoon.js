@@ -79,3 +79,23 @@ export const getTypeList = (subject, pageno = 1, pagesize = 20) => {
     })
   })
 }
+
+/**
+ *  获取分类数据
+ */
+export const getRankList = (ranktype, pageno = 1, pagesize = 20) => {
+  return request({
+    url: '/api/comic_v2/comicsrank',
+    method: 'POST',
+    params: {
+      apptype: 8,
+      appversion: '1.0',
+      channel: ' web-app'
+    },
+    data: format({
+      ranktype,
+      pageno,
+      pagesize
+    })
+  })
+}
