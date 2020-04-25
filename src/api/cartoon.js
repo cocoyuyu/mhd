@@ -101,7 +101,7 @@ export const getRankList = (ranktype, pageno = 1, pagesize = 20) => {
 }
 
 /**
- *  获取vip数据
+ *  获取 vip 数据
  */
 export const getVIPList = () => {
   return request({
@@ -112,5 +112,25 @@ export const getVIPList = () => {
       pagesize: 15,
       special: 892
     })
+  })
+}
+
+/**
+ *  获取 热门搜索 数据
+ */
+export const getHotSearch = () => {
+  return request({
+    url: '/api/comic/hotsearch?apptype=8&appversion=1.0&channel=web-app&appType=8',
+    method: 'GET'
+  })
+}
+/**
+ *  根据 搜索关键字 获取联想词
+ * @param {String} name 关键字
+ */
+export const getSearchExpand = (name) => {
+  return request({
+    url: `/api/comic_v2/searchindex?apptype=8&appversion=1.0&channel=web-app&name=${name}&type=2`,
+    method: 'GET'
   })
 }

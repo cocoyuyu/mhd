@@ -66,7 +66,7 @@ const routes = [
     component: Search
   },
   {
-    path: '/searchResult',
+    path: '/search-result',
     component: SearchResult
   },
   {

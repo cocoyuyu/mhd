@@ -1,13 +1,369 @@
 <template>
   <div class="page-search">
-    <h1>搜索页</h1>
+    <header class="search-header">
+      <div class="header-back"></div>
+      <div class="header-search">
+        <span class="icon-search"></span>
+        <input
+          class="search-input font-24"
+          type="search"
+          placeholder="漫画名丨作者 ^_^"
+          v-model="searchVal"
+        />
+      </div>
+      <div class="header-btn font-30" @click="handleClick(searchVal)">搜索</div>
+    </header>
+
+    <div class="search-main">
+      <template v-if="!searchVal">
+        <!-- 热门搜索 begin -->
+        <section class="search-recommend">
+          <div class="title font-26">
+            <span class="title-title">大家都在搜</span>
+            <span class="title-btn" @click="getHotSearch">
+              <span class="icon-refresh"></span>刷新
+            </span>
+          </div>
+
+          <div class="recommend-content font-28">
+            <span
+              class="recommend-item"
+              v-for="item in hotWordsList"
+              :key="item.id"
+              @click="handleClick(item.keyword)"
+              >{{ item.keyword }}</span
+            >
+          </div>
+        </section>
+        <!-- 热门搜索 end -->
+
+        <!-- 最近搜索 begin -->
+        <section class="search-history">
+          <div class="title font-26">
+            <span class="title-title">最近搜索</span>
+            <span class="title-btn">
+              <span class="icon-del" @click="delHistory"></span>
+            </span>
+          </div>
+          <div class="history-content font-28">
+            <span
+              class="history-item"
+              v-for="item in historySearchList"
+              :key="item"
+              @click="handleClick(item)"
+            >
+              <span class="icon-time"></span>
+              {{ item }}
+            </span>
+          </div>
+        </section>
+        <!-- 最近搜索 end -->
+      </template>
+
+      <!-- 搜索结果面板 begin -->
+      <template v-if="searchVal">
+        <section class="search-content">
+          <p
+            class="item font-28"
+            v-for="item in searchExpandList"
+            :key="item"
+            @click="handleClick(item)"
+          >
+            {{ item }}
+          </p>
+        </section>
+      </template>
+      <!-- 搜索结果面板 end -->
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-
+import { getHotSearch, getSearchExpand } from '@/api/cartoon'
 export default {
-  name: 'Search'
+  name: 'Search',
+  data () {
+    return {
+      searchVal: '',
+      // 热门搜索关键字列表
+      hotWordsList: [],
+
+      // 搜所联想词数据集合
+      searchExpandList: [],
+
+      // 历史搜索记录列表
+      historySearchList: this.getSearch()
+    }
+  },
+
+  watch: {
+    // 判断 输入框 是否有新值
+    searchVal (newVal, oldVal) {
+      if (newVal) {
+        // 防抖应用
+        // 要用计时器先清除计时器
+        clearTimeout(this.timer)
+        // 时间间隔达 500ms 才会再次发请求
+        this.timer = setTimeout(() => {
+          this.getSearchExpand(newVal)
+        }, 500)
+      }
+    }
+  },
+  methods: {
+    getHotSearch () {
+      getHotSearch()
+        .then(res => {
+          if (res.code === 200) {
+            this.hotWordsList = res.info.hotWordsList
+          } else {
+            alert(res.code_msg)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+          alert('网络异常，请稍后重试')
+        })
+    },
+    /**
+     * 保存localStorage
+     * @param {String} keyword 是搜索关键字
+     */
+    saveSearch (keyword) {
+      // 接收搜索关键字
+      // 1. 获取之前存的内容
+      let tmp = window.localStorage.getItem('search')
+      // 2. 判断 tmp 是否存在
+      if (!tmp) {
+        tmp = []
+      } else {
+        // 如果已存在就把tmp解析成数组
+        tmp = JSON.parse(tmp)
+      }
+      // 3. 判断 keyword 是否已经在 tmp 中存在
+      if (tmp.includes(keyword)) {
+        return
+      }
+      // 4. 将 keyword 追加到 tmp 数组中
+      tmp.push(keyword)
+      // 5. 重新存储 tmp , 需先将json数组转成字符串才可
+      window.localStorage.setItem('search', JSON.stringify(tmp))
+    },
+
+    /**
+     * 取出localStorage
+     */
+    getSearch () {
+      const tmp = window.localStorage.getItem('search')
+      if (!tmp) {
+        return []
+      } else {
+        // 返回得到的解析后的数组
+        return JSON.parse(tmp)
+      }
+    },
+
+    /**
+     * 关键字点击
+     * 跳转前存储localStorage
+     * 指定跳转到哪里
+     */
+    handleClick (keyword) {
+      // 1. 保存
+      this.saveSearch(keyword)
+      // 2. 跳转到搜索结果页面
+      this.$router.push('/search-result')
+    },
+
+    /**
+     * 输入框输入内容时处理
+     * 调用接口拿到返回的promise对象进行相应处理
+     */
+    getSearchExpand (name) {
+      getSearchExpand(name)
+        .then(res => {
+          if (res.code === 200) {
+            // console.log(res)
+            this.searchExpandList = res.info
+          } else {
+            alert(res.code_msg)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+          alert('网络异常，请稍后重试')
+        })
+    },
+
+    /**
+     * 清空最近搜索,记得带上本地存储数据
+     */
+    delHistory () {
+      // 待完善-04-25
+      this.historySearchList = []
+    }
+  },
+
+  created () {
+    this.getHotSearch()
+  }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "~@/assets/styles/mixins.scss";
+
+.page-search {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .search-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 44px;
+    background: #e7370c;
+    position: relative;
+    // border-bottom: 1px solid #dbd9dc;
+    .header-back {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      margin-top: -7px;
+      width: 24px;
+      height: 14px;
+      background: url("~@/assets/icon/header-back-white.png") no-repeat;
+      background-size: 100%;
+    }
+    .header-btn {
+      color: #fff;
+      font-weight: 500;
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+    }
+    .header-search {
+      display: flex;
+      align-items: center;
+      width: 70%;
+      border-radius: 3px;
+      position: relative;
+      .icon-search {
+        width: 14px;
+        height: 14px;
+        background: url("~@/assets/icon/icon-search.png") no-repeat;
+        background-size: 100%;
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+      }
+      .search-input {
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 30px;
+        padding-right: 10px;
+        padding-left: 30px;
+        border-radius: 3px;
+        outline: none;
+        border: none;
+      }
+    }
+  }
+
+  .search-main {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .search-recommend,
+  .search-history {
+    box-sizing: border-box;
+    padding: 15px 0;
+    .title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px 10px;
+      border-bottom: 1px solid #e9e9e9;
+      .title-title {
+        color: #8b8b8b;
+      }
+      .title-btn {
+        display: flex;
+        align-items: center;
+        color: #8b8b8b;
+        .icon-refresh {
+          width: 13px;
+          height: 12px;
+          margin-right: 4px;
+          background: url("~@/assets/icon/icon-refresh.png") no-repeat;
+          background-size: 100%;
+        }
+        .icon-del {
+          width: 13px;
+          height: 14px;
+          background: url("~@/assets/icon/icon-del.png") no-repeat;
+          background-size: 100%;
+        }
+      }
+    }
+    .recommend-content {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 0 10px;
+      margin-top: 15px;
+      .recommend-item {
+        @include border(#ddd, 20px);
+        display: flex;
+        box-sizing: border-box;
+        justify-content: center;
+        align-items: center;
+        height: 32px;
+        padding: 0 10px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+    }
+    .history-content {
+      padding: 0 10px;
+      .history-item {
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: 40px;
+        border-bottom: 1px solid #e9e9e9;
+        .icon-time {
+          width: 13px;
+          height: 13px;
+          margin-right: 6px;
+          background: url("~@/assets/icon/icon-time.png") no-repeat;
+          background-size: 100%;
+        }
+      }
+    }
+  }
+
+  .search-content {
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0 10px;
+    .item {
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      height: 40px;
+      padding-left: 10px;
+      font-weight: 600;
+      border-bottom: 1px solid #ddd;
+    }
+  }
+}
+</style>
