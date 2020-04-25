@@ -172,7 +172,13 @@ export default {
       // 1. 保存
       this.saveSearch(keyword)
       // 2. 跳转到搜索结果页面
-      this.$router.push('/search-result')
+      // this.$router.push(`/search-result?keyword=${keyword}`)
+      this.$router.push({
+        path: '/search-result',
+        query: {
+          keyword: keyword
+        }
+      })
     },
 
     /**
@@ -199,7 +205,7 @@ export default {
      * 清空最近搜索,记得带上本地存储数据
      */
     delHistory () {
-      // 待完善-04-25
+      // 待完善,还要清除localStorage      -04-25
       this.historySearchList = []
     }
   },
