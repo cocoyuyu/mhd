@@ -8,7 +8,7 @@
 
     <div class="classify-main">
       <!-- 父子通信，通过属性绑定传递给子组件 -->
-      <CartoonList :list="list"></CartoonList>
+      <CartoonList :list="cartoonList"></CartoonList>
     </div>
   </div>
 </template>
@@ -31,7 +31,23 @@ export default {
   data () {
     return {
       types: [], // 类型数据
-      list: []
+      classifyList: [] // 分类数据
+    }
+  },
+  computed: {
+    cartoonList () {
+      // [{bigbook_id:~, bigbook_name:~,}] => [{id:~, name:~}]
+      // arr.map()方法->返回值：是一个集合，每一次循环的返回值的集合
+      return this.classifyList.map(item => {
+        // 循环时指定需要返回的字段与值,就是改变它的值~
+        return {
+          id: item.bigbook_id,
+          coverurl: item.coverurl,
+          name: item.bigbook_name,
+          author: item.bigbook_author,
+          view: item.bigbookview
+        }
+      })
     }
   },
   methods: {
@@ -56,7 +72,7 @@ export default {
             // 解密 res.info ，并将得到的 JSON 字符串转换为对象
             const info = JSON.parse(unformat(res.info))
             // console.log(info)
-            this.list = info.comicsList
+            this.classifyList = info.comicsList
           } else {
             alert(res.code_msg)
           }

@@ -7,7 +7,7 @@
     <!-- 公共头部 end -->
 
     <div class="ranking-main">
-      <CartoonList :list="list"></CartoonList>
+      <CartoonList :list="cartoonList" isRanking></CartoonList>
     </div>
   </div>
 </template>
@@ -39,7 +39,24 @@ export default {
         { id: '5', description: '完结榜', ranktype: 5 },
         { id: '6', description: '免费榜', ranktype: 3 }
       ],
-      list: []
+      rankList: []
+    }
+  },
+
+  computed: {
+    cartoonList () {
+      // [{bigbook_id:~, bigbook_name:~,}] => [{id:~, name:~}]
+      // arr.map()方法->返回值：是一个集合，每一次循环的返回值的集合
+      return this.rankList.map(item => {
+        // 循环时指定需要返回的字段与值,就是改变它的值~
+        return {
+          id: item.bigbookid,
+          coverurl: item.coverurl,
+          name: item.name,
+          author: item.author,
+          view: item.weekhits
+        }
+      })
     }
   },
 
@@ -52,7 +69,7 @@ export default {
             // 解密 res.info ，并将得到的 JSON 字符串转换为对象
             const info = JSON.parse(unformat(res.info))
             // console.log(info)
-            this.list = info.ranklist
+            this.rankList = info.ranklist
           } else {
             alert(res.code_msg)
           }
