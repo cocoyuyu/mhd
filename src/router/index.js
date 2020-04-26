@@ -13,6 +13,7 @@ import My from '../views/My'
 import Search from '../views/Search'
 import SearchResult from '../views/SearchResult'
 import Vip from '../views/Vip'
+import City from '../views/City'
 
 // 调用路由
 Vue.use(VueRouter)
@@ -26,6 +27,10 @@ const routes = [
   {
     path: '/classify',
     component: Classify
+  },
+  {
+    path: '/city',
+    component: City
   },
   {
     path: '/hello',

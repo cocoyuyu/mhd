@@ -14,6 +14,13 @@ module.exports = {
         }
       },
 
+      '/maizuo': {
+        target: 'https://m.maizuo.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/maizuo': ''
+        }
+      },
       '/migu': {
         // 目标地址，只写主机
         target: 'http://movie.miguvideo.com',
