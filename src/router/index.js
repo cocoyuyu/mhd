@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store'
 
 import Home from '../views/Home'
 import Classify from '../views/Classify'
@@ -90,4 +91,14 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) => {
+  // 根据 sessionStorage 或 store 判断 (state相应属性名字是否有值)即当前是否选择了城市
+  if (!store.state.city.curCity && to.path !== '/city') {
+    // 先去城市列表页面
+    next('/city')
+  } else {
+    // 否则爱去哪去哪
+    next()
+  }
+})
 export default router
