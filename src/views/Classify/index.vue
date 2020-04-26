@@ -52,35 +52,17 @@ export default {
   },
   methods: {
     a () {
-      return getTypes()
-        .then(res => {
-          if (res.code === 200) {
-            this.types = res.info
-          } else {
-            alert(res.code_msg)
-          }
-        })
-        .catch(err => {
-          console.log(err)
-          alert('网络错误，请稍后重试')
-        })
+      return getTypes().then(res => {
+        this.types = res.info
+      })
     },
     b (subject) {
-      getTypeList(subject)
-        .then(res => {
-          if (res.code === 200) {
-            // 解密 res.info ，并将得到的 JSON 字符串转换为对象
-            const info = JSON.parse(unformat(res.info))
-            // console.log(info)
-            this.classifyList = info.comicsList
-          } else {
-            alert(res.code_msg)
-          }
-        })
-        .catch(err => {
-          console.log(err)
-          alert('网络错误，请稍后重试')
-        })
+      getTypeList(subject).then(res => {
+        // 解密 res.info ，并将得到的 JSON 字符串转换为对象
+        const info = JSON.parse(unformat(res.info))
+        // console.log(info)
+        this.classifyList = info.comicsList
+      })
     },
     // 切换分类类型时触发
     // 自定义事件处理函数, $event 是触发这个事件时，传递过来的 payload 即其形参就是触发事件传递来的payload

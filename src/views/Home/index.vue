@@ -20,7 +20,11 @@
       <!-- section start -->
       <!-- <index-recommend></index-recommend> -->
       <!-- 父子通信-调用子组件IndexRecommend时传递值给info这个prop，值是动态的，所以要加v-bind -->
-      <IndexRecommend v-for="item in recommendList" :key="item.specialid" :info="item"></IndexRecommend>
+      <IndexRecommend
+        v-for="item in recommendList"
+        :key="item.specialid"
+        :info="item"
+      ></IndexRecommend>
       <!-- section end -->
     </div>
   </div>
@@ -59,41 +63,19 @@ export default {
       // console.log('hello', index)
     },
     getBanner () {
-      getBanner()
-        .then(res => {
-          // 漫画岛项目的每个接口都有 code 字段，字段值为200，这个接口才ok
-          if (res.code === 200) {
-            // ok
-            // console.log(res)
-            this.bannerList = res.info
-          } else {
-            // no ok
-            // todo, 目前先使用丑陋的 alert，后面可用vant组件库中的组件优化
-            alert(res.code_msg)
-          }
-        })
-        .catch(err => {
-          console.log(err)
-          alert('网络异常，请稍后重试')
-        })
+      getBanner().then(res => {
+        // 漫画岛项目的每个接口都有 code 字段，字段值为200，这个接口才ok
+        // ok
+        // console.log(res)
+        this.bannerList = res.info
+      })
     },
     getIndexRecommend () {
-      getIndexRecommend()
-        .then(res => {
-          if (res.code === 200) {
-            // ok
-            // console.log(res)
-            this.recommendList = res.info
-          } else {
-            // no ok
-            // todo, 目前先使用丑陋的 alert，后面可用vant组件库中的组件优化
-            alert(res.code_msg)
-          }
-        })
-        .catch(err => {
-          console.log(err)
-          alert('网络异常，请稍后重试')
-        })
+      getIndexRecommend().then(res => {
+        // ok
+        // console.log(res)
+        this.recommendList = res.info
+      })
     }
   },
   // 模拟跨域请求咪咕影院数据，注意要通过 * 代理中间层地址拼上定义的统一的前缀 *，去拿目标数据
@@ -124,6 +106,5 @@ export default {
     width: 100%;
     height: 100%;
   }
-
 }
 </style>

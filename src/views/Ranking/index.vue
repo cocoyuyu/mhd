@@ -63,21 +63,12 @@ export default {
   methods: {
     // 根据 ranktype 发请求找数据
     getRankList (ranktype) {
-      getRankList(ranktype)
-        .then(res => {
-          if (res.code === 200) {
-            // 解密 res.info ，并将得到的 JSON 字符串转换为对象
-            const info = JSON.parse(unformat(res.info))
-            // console.log(info)
-            this.rankList = info.ranklist
-          } else {
-            alert(res.code_msg)
-          }
-        })
-        .catch(err => {
-          console.log(err)
-          alert('网络异常，请稍后重试')
-        })
+      getRankList(ranktype).then(res => {
+        // 解密 res.info ，并将得到的 JSON 字符串转换为对象
+        const info = JSON.parse(unformat(res.info))
+        // console.log(info)
+        this.rankList = info.ranklist
+      })
     },
     // 切换分类类型时触发
     onTypeChange (payload) {

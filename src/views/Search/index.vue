@@ -112,18 +112,9 @@ export default {
   },
   methods: {
     getHotSearch () {
-      getHotSearch()
-        .then(res => {
-          if (res.code === 200) {
-            this.hotWordsList = res.info.hotWordsList
-          } else {
-            alert(res.code_msg)
-          }
-        })
-        .catch(err => {
-          console.log(err)
-          alert('网络异常，请稍后重试')
-        })
+      getHotSearch().then(res => {
+        this.hotWordsList = res.info.hotWordsList
+      })
     },
     /**
      * 保存localStorage
@@ -186,19 +177,10 @@ export default {
      * 调用接口拿到返回的promise对象进行相应处理
      */
     getSearchExpand (name) {
-      getSearchExpand(name)
-        .then(res => {
-          if (res.code === 200) {
-            // console.log(res)
-            this.searchExpandList = res.info
-          } else {
-            alert(res.code_msg)
-          }
-        })
-        .catch(err => {
-          console.log(err)
-          alert('网络异常，请稍后重试')
-        })
+      getSearchExpand(name).then(res => {
+        // console.log(res)
+        this.searchExpandList = res.info
+      })
     },
 
     /**

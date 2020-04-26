@@ -29,26 +29,17 @@ export default {
           coverurl: item.coverurl,
           name: item.name,
           author: item.author,
-          view: 123456789  // 占位数据
+          view: 123456789 // 占位数据
         }
       })
     }
   },
   methods: {
     getSearchResult (name) {
-      getSearchResult(name)
-        .then(res => {
-          if (res.code === 200) {
-            // console.log(res)
-            this.list = res.info
-          } else {
-            alert(res.code_msg)
-          }
-        })
-        .catch(err => {
-          console.log(err)
-          alert('网络异常，请稍后重试')
-        })
+      getSearchResult(name).then(res => {
+        // console.log(res)
+        this.list = res.info
+      })
     }
   },
   components: {
