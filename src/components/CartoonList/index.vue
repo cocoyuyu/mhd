@@ -1,9 +1,14 @@
 <template>
   <section class="cartoon-list">
     <div class="list-item" v-for="(item, index) in list" :key="item.id">
-      <div
+      <!-- <div
         class="item-pic"
         :style="`background-image: url('${item.coverurl}')`"
+      ></div> -->
+      <!-- 背景图片应用图片懒加载 -->
+      <div
+        class="item-pic"
+        v-lazy:background-image="item.coverurl"
       ></div>
       <div class="item-info">
         <div class="info-book font-30">{{ item.name }}</div>
