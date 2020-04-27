@@ -1,20 +1,29 @@
 <template>
   <div class="page-city">
-    <NormalHeader :title="`当前城市-${curCityName}`" :showRight="false"></NormalHeader>
+    <NormalHeader
+      :title="`当前城市-${curCityName}`"
+      :showRight="false"
+    ></NormalHeader>
     <div class="city-main">
       <div class="left" ref="scrollLeft">
-        <div
-          class="city-index-section"
-          :ref="`section-${item.cityInitial}`"
-          v-for="item in cityList"
-          :key="item.cityInitial"
-        >
-          <p>{{ item.cityInitial }}</p>
-          <ul>
-            <li v-for="city in item.list" :key="city.cityId" @click="handleStore(city)">
-              {{ city.name }}
-            </li>
-          </ul>
+        <div>
+          <div
+            class="city-index-section"
+            :ref="`section-${item.cityInitial}`"
+            v-for="item in cityList"
+            :key="item.cityInitial"
+          >
+            <p>{{ item.cityInitial }}</p>
+            <ul>
+              <li
+                v-for="city in item.list"
+                :key="city.cityId"
+                @click="handleStore(city)"
+              >
+                {{ city.name }}
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="right">
@@ -29,7 +38,10 @@
 </template>
 
 <script>
+// 引入 better-scroll
+import BScroll from 'better-scroll'
 import NormalHeader from '@/components/NormalHeader'
+
 // 引入 vuex 辅助函数
 import { mapMutations, mapGetters } from 'vuex'
 import { getCityList } from '@/api/city.js'
@@ -70,12 +82,16 @@ export default {
       // ref 标记时，如果标记在 v-for 上，得到的将是一个数组,下标为[0]的元素才是目标dom元素
       // console.log(this.$refs[`section-${cityInitial}`][0])
 
-      // 根据 cityInitial 获取左侧对应元素的dom对象
+      // 1. 根据 cityInitial 获取左侧对应元素的dom对象
       const targetEl = this.$refs[`section-${cityInitial}`][0]
-      // 计算该 dom 元素 距离左侧顶部的距离
+      // 2. 计算该 dom 元素 距离左侧顶部的距离
       const offsetTop = targetEl.offsetTop
-      // 修改左侧滚动元素的 scrollTop 属性的值,让其滚动到顶部
-      this.$refs.scrollLeft.scrollTop = offsetTop
+
+      // 3. 修改左侧滚动元素的 scrollTop 属性的值,让其滚动到顶部
+      // this.$refs.scrollLeft.scrollTop = offsetTop
+
+      // 3.1 基于base-scroll 插件,借助其实例的scrollTo方法，实现左侧对应dom元素滚动到顶部
+      this.bscroll.scrollTo(0, -offsetTop)
     },
 
     // 修改vuex 仓库数据
@@ -126,6 +142,13 @@ export default {
   },
   created () {
     this.getCityList()
+  },
+  mounted () {
+    /* eslint-disable */
+    this.bscroll = new BScroll(this.$refs.scrollLeft, {
+      click: true
+    });
+    /* eslint-enable */
   }
 }
 </script>
@@ -147,7 +170,7 @@ export default {
     .left {
       flex: 1;
       height: 100%;
-      overflow-y: auto;
+      // overflow-y: auto;
       position: relative;
       .city-index-section {
         // @include border-bottom;
