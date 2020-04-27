@@ -95,7 +95,13 @@ router.beforeEach((to, from, next) => {
   // 根据 sessionStorage 或 store 判断 (state相应属性名字是否有值)即当前是否选择了城市
   if (!store.state.city.curCity && to.path !== '/city') {
     // 先去城市列表页面
-    next('/city')
+    next({
+      path: '/city',
+      // 携带要去的页面的fullPath
+      query: {
+        redirect: to.fullPath
+      }
+    })
   } else {
     // 否则爱去哪去哪
     next()

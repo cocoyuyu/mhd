@@ -11,7 +11,7 @@
         >
           <p>{{ item.cityInitial }}</p>
           <ul>
-            <li v-for="city in item.list" :key="city.cityId" @click="SET_CURCITY(city)">
+            <li v-for="city in item.list" :key="city.cityId" @click="handleStore(city)">
               {{ city.name }}
             </li>
           </ul>
@@ -76,6 +76,15 @@ export default {
       const offsetTop = targetEl.offsetTop
       // 修改左侧滚动元素的 scrollTop 属性的值,让其滚动到顶部
       this.$refs.scrollLeft.scrollTop = offsetTop
+    },
+
+    // 修改vuex 仓库数据
+    handleStore (city) {
+      // 1. 调用mutation改变仓库数据
+      this.SET_CURCITY(city)
+      // 2. 获取之前要去的页面地址。如果没有要指定要去的地址就去首页
+      const redirect = this.$route.query.redirect || '/'
+      this.$router.replace(redirect)
     }
   },
   computed: {
