@@ -37,70 +37,124 @@ const City = () => import('../views/City')
 Vue.use(VueRouter)
 
 // 配置路由规则
-const routes = [
-  {
-    path: '/home',
-    // /* webpackChunkName:"home" */ 给拆分出去的js文件取个名字
-    component: () => import(/* webpackChunkName:"home" */ '../views/Home')
-  },
-  {
-    path: '/classify',
-    component: Classify
-  },
-  {
-    path: '/city',
-    component: City
-  },
-  {
-    path: '/hello',
-    component: Hello,
-    children: [
-      {
-        path: 'favorite',
-        component: Favorite
-      },
-      {
-        path: 'history',
-        component: History
-      },
-      {
-        path: '',
-        redirect: '/history'
-      }
-    ]
-  },
-  {
-    path: '/login',
-    component: Login
-  },
-  {
-    path: '/register',
-    component: Register
-  },
-  {
-    path: '/ranking',
-    component: Ranking
-  },
-  {
-    path: '/my',
-    component: My
-  },
-  {
-    path: '/search',
-    component: Search
-  },
-  {
-    path: '/search-result',
-    component: SearchResult
-  },
-  {
-    path: '/vip',
-    component: Vip
-  },
-  {
-    path: '/',
-    redirect: '/home'
+const routes = [{
+  path: '/home',
+  // /* webpackChunkName:"home" */ 给拆分出去的js文件取个名字
+  component: () => import(/* webpackChunkName:"home" */ '../views/Home'),
+  meta: {
+    enterActiveClass: '',
+    leaveActiveClass: 'animated delay-1s'
   }
+},
+{
+  path: '/classify',
+  component: Classify,
+  meta: {
+    enterActiveClass: 'animated slideInRight',
+    leaveActiveClass: 'animated slideOutRight'
+  }
+},
+{
+  path: '/city',
+  component: City,
+  meta: {
+    enterActiveClass: 'animated slideInRight',
+    leaveActiveClass: 'animated slideOutRight'
+  }
+},
+{
+  path: '/hello',
+  component: Hello,
+  children: [{
+    path: 'favorite',
+    component: Favorite,
+    meta: {
+      enterActiveClass: 'animated slideInRight',
+      leaveActiveClass: 'animated slideOutRight'
+    }
+  },
+  {
+    path: 'history',
+    component: History,
+    meta: {
+      enterActiveClass: 'animated slideInRight',
+      leaveActiveClass: 'animated slideOutRight'
+    }
+  },
+  {
+    path: '',
+    redirect: '/history',
+    meta: {
+      enterActiveClass: 'animated slideInRight',
+      leaveActiveClass: 'animated slideOutRight'
+    }
+  }
+  ]
+},
+{
+  path: '/login',
+  component: Login,
+  meta: {
+    enterActiveClass: 'animated slideInRight',
+    leaveActiveClass: 'animated slideOutRight'
+  }
+},
+{
+  path: '/register',
+  component: Register,
+  meta: {
+    enterActiveClass: 'animated slideInRight',
+    leaveActiveClass: 'animated slideOutRight'
+  }
+},
+{
+  path: '/ranking',
+  component: Ranking,
+  meta: {
+    enterActiveClass: 'animated slideInDown',
+    leaveActiveClass: 'animated slideOutUp'
+  }
+},
+{
+  path: '/my',
+  component: My,
+  meta: {
+    enterActiveClass: 'animated slideInRight',
+    leaveActiveClass: 'animated slideOutRight'
+  }
+},
+{
+  path: '/search',
+  component: Search,
+  meta: {
+    enterActiveClass: 'animated slideInRight',
+    leaveActiveClass: 'animated slideOutRight'
+  }
+},
+{
+  path: '/search-result',
+  component: SearchResult,
+  meta: {
+    enterActiveClass: 'animated slideInRight',
+    leaveActiveClass: 'animated slideOutRight'
+  }
+},
+{
+  path: '/vip',
+  component: Vip,
+  meta: {
+    enterActiveClass: 'animated slideInRight',
+    leaveActiveClass: 'animated slideOutRight'
+  }
+},
+{
+  path: '/',
+  redirect: '/home',
+  meta: {
+    enterActiveClass: 'animated slideInRight',
+    leaveActiveClass: 'animated slideOutRight'
+  }
+}
 
 ]
 

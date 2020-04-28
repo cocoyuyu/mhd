@@ -3,7 +3,7 @@
     <!-- template 中直接引入 src 文件夹中的某个图片文件是没有问题的
     原因：脚手架的配置中对这种操作做了处理，会被交给 webpack 打包
     -->
-    <img src="../../assets/logo.png" alt="">
+    <!-- <img src="../../assets/logo.png" alt=""> -->
     <!-- 首页头部 begin -->
     <IndexHeader></IndexHeader>
     <!-- 首页头部 end -->
@@ -101,6 +101,7 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
+  z-index: 665 !important;
 
   .index-main {
     flex: 1;

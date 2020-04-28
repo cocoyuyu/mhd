@@ -1,15 +1,21 @@
 <template>
-  <div class="page-ranking">
-    <!-- 公共头部start -->
-    <NormalHeader title=" 排行榜 "></NormalHeader>
-    <!-- 父子通信，监听子组件的自定义事件 -->
-    <HeaderType :types="types" @click="onTypeChange"></HeaderType>
-    <!-- 公共头部 end -->
+  <transition
+    appear
+    enter-active-class="animated slideInDown"
+    leave-active-class="animated slideOutUp"
+  >
+    <div class="page-ranking">
+      <!-- 公共头部start -->
+      <NormalHeader title=" 排行榜 "></NormalHeader>
+      <!-- 父子通信，监听子组件的自定义事件 -->
+      <HeaderType :types="types" @click="onTypeChange"></HeaderType>
+      <!-- 公共头部 end -->
 
-    <div class="ranking-main">
-      <CartoonList :list="cartoonList" isRanking></CartoonList>
+      <div class="ranking-main">
+        <CartoonList :list="cartoonList" isRanking></CartoonList>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -88,6 +94,12 @@ export default {
 
 <style lang="scss" scoped>
 .page-ranking {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 666;
   display: flex;
   flex-direction: column;
   height: 100%;
