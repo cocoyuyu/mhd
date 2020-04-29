@@ -7,7 +7,7 @@
     <!-- 首页头部 begin -->
     <IndexHeader></IndexHeader>
     <!-- 首页头部 end -->
-    <div class="index-main">
+    <div class="index-main" v-go-top>
       <!-- 轮播图 begin -->
       <Swiper class="my-swiper" @change="onChange" v-if="bannerList.length > 0">
         <!-- 组件标签里的内容是插槽内容 -->

@@ -6,7 +6,7 @@
     <HeaderType :types="types" @click="onTypeChange"></HeaderType>
     <!-- 公共头部 end -->
 
-    <div class="classify-main">
+    <div class="classify-main" v-go-top>
       <!-- 父子通信，通过属性绑定传递给子组件 -->
       <CartoonList :list="cartoonList"></CartoonList>
     </div>

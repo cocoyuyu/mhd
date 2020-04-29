@@ -14,7 +14,7 @@
       <div class="header-btn font-30" @click="handleClick(searchVal)">搜索</div>
     </header>
 
-    <div class="search-main">
+    <div class="search-main" v-go-top>
       <template v-if="!searchVal">
         <!-- 热门搜索 begin -->
         <section class="search-recommend">

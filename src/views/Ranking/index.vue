@@ -11,7 +11,7 @@
       <HeaderType :types="types" @click="onTypeChange"></HeaderType>
       <!-- 公共头部 end -->
 
-      <div class="ranking-main">
+      <div class="ranking-main" v-go-top>
         <CartoonList :list="cartoonList" isRanking></CartoonList>
       </div>
     </div>

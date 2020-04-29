@@ -6,6 +6,9 @@ import store from './store'
 // 引入图片懒加载插件
 import VueLazyload from 'vue-lazyload'
 
+// 引入 自定义指令
+import GoTop from './directives/gotop/index.js'
+
 import './assets/styles/base.scss'
 
 Vue.config.productionTip = false
@@ -27,6 +30,9 @@ Vue.filter('formatYi', (value) => { // 接收的第一个参数是要过滤显�
   const test = (value / 100000000).toFixed(2)
   return `${test}亿`
 })
+
+// 全局注册自定义指令
+Vue.directive('go-top', GoTop)
 new Vue({
   router,
   store,

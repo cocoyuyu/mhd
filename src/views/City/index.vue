@@ -5,7 +5,7 @@
       :showRight="false"
     ></NormalHeader>
     <div class="city-main">
-      <div class="left" ref="scrollLeft">
+      <div class="left" ref="scrollLeft" v-go-top>
         <div>
           <div
             class="city-index-section"

@@ -4,7 +4,7 @@
     <NormalHeader title=" VIP专区 "></NormalHeader>
     <!-- 公共头部 end -->
 
-    <div class="vip-main">
+    <div class="vip-main" v-go-top>
       <CartoonList :list="cartoonList"></CartoonList>
     </div>
   </div>

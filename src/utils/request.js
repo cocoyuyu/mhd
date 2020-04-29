@@ -6,8 +6,8 @@ import { Notify } from 'vant'
 
 // 创建一个 axios 实例对象
 const instance = axios.create({
-  // 配置基准路径
-  baseURL: 'http://localhost:8080',
+  // 配置基准路径,使用 环境变量控制
+  baseURL: process.env.NODE_ENV === 'production' ? 'http://111.230.200.247' : 'http://localhost:8080',
   // 超时时间设置 ms -> 超过这个时间未从接口拿到数据就报错
   timeout: 5000
 })
